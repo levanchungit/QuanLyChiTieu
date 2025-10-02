@@ -6,11 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Button,
 } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-date-picker';
 
 /** ---------- Types ---------- */
@@ -66,7 +64,11 @@ const mockData = {
 /** =======================================================================
  *  Screen
  *  ======================================================================= */
-const MainScreen: React.FC = () => {
+import type { DrawerScreenProps } from '@react-navigation/drawer';
+
+type MainScreenProps = DrawerScreenProps<any>;
+
+const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
   const [period, setPeriod] = useState<
     'Ngày' | 'Tuần' | 'Tháng' | 'Năm' | 'Khoảng thời gian'
   >('Tuần');
@@ -98,6 +100,17 @@ const MainScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#e9f2eb' }}>
+      {/* drawer Navigation */}
+      <View style={{ position: 'absolute', top: 16, left: 8, zIndex: 10 }}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.toggleDrawer();
+          }}
+        >
+          <Text style={{ fontSize: 24, margin: 16 }}>☰</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTitle}>
